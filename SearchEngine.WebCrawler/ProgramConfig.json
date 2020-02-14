@@ -1,0 +1,7 @@
+{
+  "NumberOfCrawlers": 3,
+  "Crawler_UserAgent": "SearchEngineBot/1.0",
+  "Crawler_ConnectionString": "Server=SHIR\\SQLEXPRESS; Database=SearchEngine; Trusted_Connection=True; MultipleActiveResultSets=true;",
+  "Crawler_MaxWaitForWebpages": 15,
+  "Crawler_TimeoutInSeconds": 50
+}
