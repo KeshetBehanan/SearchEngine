@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.NetworkInformation;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 /// <summary>
@@ -114,10 +115,22 @@ namespace SearchEngine.WebCrawler
             do
             {
                 cmd = Console.ReadLine().ToLower();
-                if(cmd == "stop")
-                    await webCrawlers[int.Parse(Console.ReadLine())].StopAsync();
-                else if(cmd == "start")
-                    await webCrawlers[int.Parse(Console.ReadLine())].StartAsync();
+                if(cmd == "stop all")
+                {
+                    webCrawlers.ForEach(x => x.StopAsync().Start());
+                }
+                else
+                {
+                    var match = Regex.Match(cmd, @"stop (\d+)");
+                    if(match.Success)
+                    {
+                        var n = int.Parse(match.Groups[1].Value);
+                        for(int i = 0; i < n && i <= webCrawlers.Count; i++)
+                        {
+                            webCrawlers[i].StopAsync().Start();
+                        }
+                    }
+                }
             } while(cmd != "exit");
         }
 
