@@ -48,7 +48,7 @@ namespace SearchEngine.WebCrawler
             { "text()[normalize-space(.) != '']", 1 },
             { "p", 3 }, { "span", 2 }, { "blockquote", 3 }, { "cite", 2 },
             { "strong", 4 }, { "mark", 4 }, { "u", 3 }, { "b", 3 },
-            { "h1", 12 }, { "h2", 10 }, { "h3", 8 }, { "h4", 6 }, { "h5", 4 }, { "h6", 4 }
+            { "h1", 14 }, { "h2", 12 }, { "h3", 10 }, { "h4", 6 }, { "h5", 4 }, { "h6", 4 }
         };
 
         /// <summary>
@@ -59,8 +59,8 @@ namespace SearchEngine.WebCrawler
         /// </remarks>
         private static readonly Dictionary<string, int> docMetas = new Dictionary<string, int>()
         {
-            { "domain", 32 }, { "url", 14 },
-            { "title", 16 }, { "description", 8 }
+            { "domain", 48 }, { "url", 20 },
+            { "title", 24 }, { "description", 8 }
         };
 
         #endregion Private Members
