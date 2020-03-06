@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <Content Include="ProgramConfig.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
