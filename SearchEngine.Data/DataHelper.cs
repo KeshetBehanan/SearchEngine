@@ -79,13 +79,13 @@ namespace SearchEngine.Data
             modelBuilder.Entity<UrlRecord>()
                 .Property(x => x.Url)
                 .HasConversion(
-                    x => x.GetComponents(UriComponents.HttpRequestUrl ^ UriComponents.Query, UriFormat.Unescaped),
+                    x => x.GetComponents(UriComponents.HttpRequestUrl, UriFormat.Unescaped),
                     x => new Uri(x)
                 );
             modelBuilder.Entity<Webpage>()
                 .Property(x => x.Url)
                 .HasConversion(
-                    x => x.GetComponents(UriComponents.HttpRequestUrl ^ UriComponents.Query, UriFormat.Unescaped),
+                    x => x.GetComponents(UriComponents.HttpRequestUrl, UriFormat.Unescaped),
                     x => new Uri(x)
                 );
 

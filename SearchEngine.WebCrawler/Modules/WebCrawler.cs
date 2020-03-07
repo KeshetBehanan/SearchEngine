@@ -196,8 +196,11 @@ namespace SearchEngine.WebCrawler
 
                 if(isCrawling.IsCancellationRequested)
                 {
-                    Task.WaitAll(tasksOfParsingKeywords.ToArray());
-                    dataHelper.SaveChanges();
+                    if(tasksOfParsingKeywords.Count > 0)
+                    {
+                        Task.WaitAll(tasksOfParsingKeywords.ToArray());
+                        dataHelper.SaveChanges();
+                    }
                     LogMessage("Finished crawling.");
                     return Task.CompletedTask;
                 }
@@ -223,6 +226,12 @@ namespace SearchEngine.WebCrawler
                 if(res.IsSuccessStatusCode)
                 {
                     var url = res.RequestMessage.RequestUri;
+
+                    if(dataHelper.Index.Any(x => x.Url == url))
+                    {
+                        continue;
+                    }
+
                     try
                     {
                         var raw = res.Content.ReadAsStringAsync().Result;
@@ -321,7 +330,7 @@ namespace SearchEngine.WebCrawler
                         .Select(x => x.GetAttributeValue("href", "").ToLower()) // Select all links of `a` tag
                         .Where(x => !string.IsNullOrWhiteSpace(x)) // remove empty links
                         .Select(x => new Uri(url, x)) // Convert it to a Uri type
-                        .Select(x => new Uri(x.GetComponents(UriComponents.HttpRequestUrl ^ UriComponents.Query, UriFormat.Unescaped))) // format the links
+                        .Select(x => new Uri(x.GetComponents(UriComponents.HttpRequestUrl, UriFormat.Unescaped))) // format the links
                         .Distinct() // Make it unique
                         .Where(x => !(x.LocalPath.EndsWith(".js") || x.LocalPath.EndsWith(".css"))) // Don't include JS and CSS files
                         .Where(x => !(dataHelper.Queue.Any(y => y.Url == x) || dataHelper.Index.Any(y => y.Url == x))) // Check if already exists
@@ -380,6 +389,8 @@ namespace SearchEngine.WebCrawler
                     LinkWordsToWebpage(domainKeywords, webpage, docMetas["domain"], dataHelper),
                     LinkWordsToWebpage(urlKeywords, webpage, docMetas["url"], dataHelper)
                 };
+
+                Task.WaitAll(linksTasks);
 
                 #endregion
 
