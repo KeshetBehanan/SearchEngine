@@ -117,7 +117,12 @@ namespace SearchEngine.WebCrawler
                 cmd = Console.ReadLine().ToLower();
                 if(cmd == "stop all")
                 {
-                    webCrawlers.ForEach(x => x.StopAsync().Start());
+                    while(webCrawlers.Count > 0)
+                    {
+                        var wc = webCrawlers[0];
+                        webCrawlers.Remove(wc);
+                        wc.StopAsync().Wait();
+                    }
                 }
                 else
                 {
@@ -127,7 +132,7 @@ namespace SearchEngine.WebCrawler
                         var n = int.Parse(match.Groups[1].Value);
                         for(int i = 0; i < n && i <= webCrawlers.Count; i++)
                         {
-                            webCrawlers[i].StopAsync().Start();
+                            webCrawlers[i].StopAsync().Wait();
                         }
                     }
                 }
