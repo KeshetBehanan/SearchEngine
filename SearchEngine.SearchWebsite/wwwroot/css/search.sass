@@ -1,0 +1,115 @@
+header
+    .wrapper
+        text-align: center
+    a
+        text-decoration: none
+        display: inline-block
+
+h1.logo
+    height: 40px
+    margin: 0
+    margin-bottom: 5px
+    pointer-events: none
+    user-select: none
+
+input[type=text]
+    appearance: none
+    background-color: #282828
+    border: 1px #555 solid
+    padding: 5px 8px
+    color: white
+    width: 100%
+    max-width: calc(100% - 118px)
+    min-width: 190px
+    margin: 0
+    font-size: 18px
+    &:focus
+        outline: none
+        border-color: #8e8
+
+input[type=submit]
+    appearance: none
+    cursor: pointer
+    background-color: #88e
+    border: 1px #ddd solid
+    padding: 5px 8px
+    color: white
+    width: 90px
+    margin: 0
+    font-weight: bold
+    font-size: 18px
+    text-align: center
+    &:focus
+        outline: none
+        border-color: #8e8
+
+.count
+    font-size: 14px
+    color: #888
+
+.result
+    margin: 20px 0
+
+    a
+        text-decoration: none
+        display: inline
+        width: 100%
+        overflow-x: hidden
+
+        h3.title
+            color: #88e
+            font-size: 20px
+            display: inline
+            &:hover
+                text-decoration: underline
+        &:visited h3.title
+            color: #c8e
+
+        cite.url
+            color: #8e8
+            font-size: 16px
+            font-style: normal
+            display: inline-block
+            max-width: 100%
+            overflow-x: hidden
+            text-overflow: ellipsis
+            white-space: nowrap
+            user-select: none
+            &:before
+                content: '»'
+                margin-right: 5px
+
+    p.description
+        color: #ddd
+        font-size: 14px
+        margin: 0
+        max-height: 80px
+        overflow: hidden
+        position: relative
+        &:after
+            content: ''
+            width: 100%
+            height: 100%
+            position: absolute
+            left: 0
+            top: 0
+            background: linear-gradient(transparent 48px, #282828)
+
+.pages
+    text-align: center
+    margin: 10px 0
+    color: #88e
+    font-weight: bold
+    font-size: 18px
+    a
+        color: #88e
+        &.this
+            pointer-events: none
+            text-decoration: none
+            color: #8e8
+    &::before, &::after
+        color: #fff
+    &::before
+        content: '['
+    &::after
+        content: ']'

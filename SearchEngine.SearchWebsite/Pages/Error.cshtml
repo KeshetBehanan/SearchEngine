@@ -1,0 +1,37 @@
+﻿@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "SearchEngine - Error";
+}
+@section Stylesheets {
+    <link rel="stylesheet" href="~/css/main.css">
+}
+
+<header>
+    <div class="wrapper">
+        <h1>Error</h1>
+    </div>
+</header>
+<main>
+    <div class="wrapper">
+        <p>An error occurred while processing your request.</p>
+        <p>
+        @if(Model.ShowRequestId)
+        {
+            <p>
+                <strong>Request ID:</strong> <code>@Model.RequestId</code>
+            </p>
+        }
+        <br>
+        <p><a href="/">Back to home page</a></p>
+    </div>
+</main>
+<footer style="position: fixed; bottom: 0%; width: 100%;">
+    <div class="wrapper">
+        <p>
+            This project was developed by Tal Israeli for "Davidson Institute of Science Education".<br>
+            This website is under the <a href="~/License">MIT License</a>.<br>
+            Copyright © 2019-2020, Tal Israeli.
+        </p>
+    </div>
+</footer>

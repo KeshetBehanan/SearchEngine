@@ -1,0 +1,78 @@
+﻿@page
+@model SearchEngine.SearchWebsite.Pages.SearchModel
+@using System.Web;
+@{
+    ViewData["Title"] = $"{Model.Query} - SearchEngine";
+}
+@section Stylesheets {
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/search.css">
+}
+
+<header>
+    <div class="wrapper">
+        <a href="~/"><h1 class="logo"><span style="color: #88e">Search</span><span style="color: #8e8">Engine</span></h1></a>
+        <form>
+            <input type="text" value="@Model.Query" name="search">
+            <input type="submit" value="Search">
+        </form>
+    </div>
+</header>
+<main style="min-height: 650px;">
+    <div class="wrapper">
+        @if(Model.TotalResults > 0)
+        {
+            <p class="count">About @Model.TotalResults.ToString("N0") results (@Model.TimeToLoad.TotalSeconds.ToString("F2") seconds)</p>
+            @foreach(var result in Model.Results)
+            {
+                <div class="result">
+                    <a href="@result.Url">
+                        <h3 class="title">@if(string.IsNullOrWhiteSpace(result.Title)) WriteLiteral(result.Url); else WriteLiteral(result.Title);</h3><br>
+                        <cite class="url">@result.Url</cite>
+                        @if(Model.IsDebug)
+                            WriteLiteral($"<span style=\"margin-right: 10px; font-size: 12px; vertical-align: super; color: #999;\">" +
+                                $"Score: {result.Score}</span>");
+                    </a>
+                    @if(!string.IsNullOrWhiteSpace(result.Description))
+                    {
+                        <p class="description">
+                            @result.Description
+                        </p>
+                    }
+                </div>
+            }
+
+            <div class="pages">
+                @if(Model.ResultPageNumber < 6)
+                {
+                    @for(int i = 1; i < 10 && i <= Model.TotalResults / SearchModel.NUMBER_OF_RESULTS_PER_PAGE + 1; i++)
+                    {
+                        <a @if(Model.ResultPageNumber == i) WriteLiteral("class=\"this\""); href="/Search?q=@HttpUtility.UrlEncode(Model.Query)&n=@i">@i</a>
+                    }
+                }
+                else
+                {
+                    <a href="/Search?q=@HttpUtility.UrlEncode(Model.Query)&n=1">1</a> <span>…</span>
+                    @for(int i = Model.ResultPageNumber - 3; i < Model.ResultPageNumber + 5 && i <= Model.TotalResults / SearchModel.NUMBER_OF_RESULTS_PER_PAGE + 1; i++)
+                    {
+                        <a @if(Model.ResultPageNumber == i) WriteLiteral("class=\"this\""); href="/Search?q=@HttpUtility.UrlEncode(Model.Query)&n=@i">@i</a>
+                    }
+                }
+            </div>
+        }
+        else
+        {
+            <p>No results found for "@Model.Query".</p>
+            <p>Please try to search your query in a different way.</p>
+        }
+    </div>
+</main>
+<footer>
+    <div class="wrapper">
+        <p>
+            This project was developed by Tal Israeli for "Davidson Institute of Science Education".<br>
+            This website is under the <a href="~/License">MIT License</a>.<br>
+            Copyright © 2019-2020, Tal Israeli.
+        </p>
+    </div>
+</footer>

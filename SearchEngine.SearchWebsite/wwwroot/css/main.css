@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+::-moz-selection {
+  background-color: #55d3;
+}
+::selection {
+  background-color: #55d3;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #282828;
+}
+
+* {
+  font-family: 'Courier New';
+  color: white;
+  unicode-bidi: plaintext;
+  text-align: left;
+}
+
+header {
+  padding: 25px 0;
+  background-color: #333;
+  border-bottom: 1px solid #555;
+}
+
+main {
+  padding: 15px 0;
+}
+
+footer {
+  padding: 10px 0;
+  background-color: #333;
+  border-top: 1px solid #555;
+}
+
+.wrapper {
+  width: calc(100% - 40px);
+  max-width: 600px;
+  margin: 0 auto;
+}
+/*# sourceMappingURL=main.css.map */

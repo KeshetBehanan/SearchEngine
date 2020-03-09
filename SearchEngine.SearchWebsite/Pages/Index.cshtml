@@ -1,0 +1,34 @@
+﻿@page
+@model IndexModel
+@using SearchEngine.SearchWebsite.Pages
+@{
+    ViewData["Title"] = "SearchEngine";
+}
+@section Stylesheets {
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/search.css">
+    <style>
+        body {
+            background-color: #333;
+        }
+    </style>
+}
+
+<main>
+    <div class="wrapper" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -150%); text-align: center;">
+        <h1 class="logo" style="font-size: 60px; margin-bottom: 40px; display: inline-block;"><span style="color: #88e">Search</span><span style="color: #8e8">Engine</span></h1>
+        <form asp-page="Search" method="get">
+            <input type="text" name="q" autofocus>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+</main>
+<footer style="position: fixed; bottom: 0%; width: 100%; background-color: #282828;">
+    <div class="wrapper">
+        <p>
+            This project was developed by Tal Israeli for "Davidson Institute of Science Education".<br>
+            This website is under the <a href="~/License">MIT License</a>.<br>
+            Copyright © 2019-2020, Tal Israeli.
+        </p>
+    </div>
+</footer>
