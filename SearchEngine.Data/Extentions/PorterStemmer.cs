@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SearchEngine.WebCrawler
+namespace SearchEngine.Data
 {
 	/// <summary>
 	/// The Stemmer class transforms a word into its root form.
@@ -13,7 +13,7 @@ namespace SearchEngine.WebCrawler
 	/// var stemmer = new PorterStemmer();
 	/// var stem = stemmer.StemWord(word);
 	/// </example>
-	internal class PorterStemmer
+	public class PorterStemmer
 	{
 
 		// The passed in word turned into a char array. 
