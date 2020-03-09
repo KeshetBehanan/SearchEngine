@@ -333,3 +333,4 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 SearchEngine.WebCrawler/ProgramConfig.json
+SearchEngine.SearchWebsite/appsettings.json
