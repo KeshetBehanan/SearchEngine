@@ -7,14 +7,29 @@
 @section Stylesheets {
     <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/css/search.css">
+    @if(Model.IsDebug)
+    {
+        <style>
+            span.debug {
+                font-size: 12px;
+                color: #999;
+                position: absolute;
+                transform: translate(-40px, 5px);
+            }
+        </style>
+    }
 }
 
 <header>
     <div class="wrapper">
         <a href="~/"><h1 class="logo"><span style="color: #88e">Search</span><span style="color: #8e8">Engine</span></h1></a>
-        <form>
-            <input type="text" value="@Model.Query" name="search">
+        <form asp-page="Search" method="get">
+            <input type="text" value="@Model.Query" name="q">
             <input type="submit" value="Search">
+            @if(Model.IsDebug)
+            {
+                <input type="hidden" name="debug" value="true" />
+            }
         </form>
     </div>
 </header>
@@ -26,12 +41,11 @@
             @foreach(var result in Model.Results)
             {
                 <div class="result">
+                    @if(Model.IsDebug)
+                        WriteLiteral($"<span class=\"debug\">{result.Score}</span>");
                     <a href="@result.Url">
                         <h3 class="title">@if(string.IsNullOrWhiteSpace(result.Title)) WriteLiteral(result.Url); else WriteLiteral(result.Title);</h3><br>
                         <cite class="url">@result.Url</cite>
-                        @if(Model.IsDebug)
-                            WriteLiteral($"<span style=\"margin-right: 10px; font-size: 12px; vertical-align: super; color: #999;\">" +
-                                $"Score: {result.Score}</span>");
                     </a>
                     @if(!string.IsNullOrWhiteSpace(result.Description))
                     {
@@ -47,15 +61,15 @@
                 {
                     @for(int i = 1; i < 10 && i <= Model.TotalResults / SearchModel.NUMBER_OF_RESULTS_PER_PAGE + 1; i++)
                     {
-                        <a @if(Model.ResultPageNumber == i) WriteLiteral("class=\"this\""); href="/Search?q=@HttpUtility.UrlEncode(Model.Query)&n=@i">@i</a>
+                        <a @if(Model.ResultPageNumber == i) WriteLiteral("class=\"this\""); href="/Search?q=@HttpUtility.UrlEncode(Model.Query)@if(Model.IsDebug)WriteLiteral("&debug=true");&n=@i">@i</a>
                     }
                 }
                 else
                 {
-                    <a href="/Search?q=@HttpUtility.UrlEncode(Model.Query)&n=1">1</a> <span>…</span>
+                    <a href="/Search?q=@HttpUtility.UrlEncode(Model.Query)@if(Model.IsDebug)WriteLiteral("&debug=true");&n=1">1</a> <span>…</span>
                     @for(int i = Model.ResultPageNumber - 3; i < Model.ResultPageNumber + 5 && i <= Model.TotalResults / SearchModel.NUMBER_OF_RESULTS_PER_PAGE + 1; i++)
                     {
-                        <a @if(Model.ResultPageNumber == i) WriteLiteral("class=\"this\""); href="/Search?q=@HttpUtility.UrlEncode(Model.Query)&n=@i">@i</a>
+                        <a @if(Model.ResultPageNumber == i) WriteLiteral("class=\"this\""); href="/Search?q=@HttpUtility.UrlEncode(Model.Query)@if(Model.IsDebug)WriteLiteral("&debug=true");&n=@i">@i</a>
                     }
                 }
             </div>
