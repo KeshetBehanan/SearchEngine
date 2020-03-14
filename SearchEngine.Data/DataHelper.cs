@@ -51,6 +51,11 @@ namespace SearchEngine.Data
         /// <summary>
         /// The constructor of the <see cref="DataHelper"/>.
         /// </summary>
+        public DataHelper(DbContextOptions options) : base(options) { }
+
+        /// <summary>
+        /// The constructor of the <see cref="DataHelper"/>.
+        /// </summary>
         /// <param name="config">The config of the <see cref="DataHelper"/></param>
         public DataHelper(DataHelperConfig config)
         {
@@ -66,7 +71,8 @@ namespace SearchEngine.Data
             base.OnConfiguring(optionsBuilder);
 
             // Connect to the database.
-            optionsBuilder.UseSqlServer(config.ConnectionString);
+            if(config != null)
+                optionsBuilder.UseSqlServer(config.ConnectionString);
 
             optionsBuilder.EnableSensitiveDataLogging();
         }
