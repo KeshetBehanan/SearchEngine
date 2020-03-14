@@ -100,45 +100,38 @@ namespace SearchEngine.SearchWebsite.Pages
             var sw = new Stopwatch();
             sw.Start();
 
-            Results = new List<ResultRecord>()
+            var stemmer = new PorterStemmer();
+            var terms = Query.Split(' ').Select(x => stemmer.StemWord(x)).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+            if(terms.Length == 0)
             {
-                new ResultRecord()
+                return Redirect("/");
+            }
+
+            var results = dataHelper.Keywords.Where(x => x.RootKeywordForm == terms[0]).SelectMany(x => x.KeywordWebpageRecords)
+                .Select(x => new ResultRecord()
                 {
-                    Title = "Free Web Hosting - Host a Website for Free with Cpanel, PHP",
-                    Url = "https://www.000webhost.com/",
-                    Description = "Absolutely free web hosting with cPanel, PHP & MySQL for a stunning blogging start. Get free website hosting together with a free domain name at no cost at all!",
-                    Score = 1000
-                },
-                new ResultRecord()
-                {
-                    Title = "Twitch",
-                    Url = "https://www.twitch.tv/",
-                    Description = "Twitch is the world’s leading live streaming platform for gamers and the things we love. Watch and chat now with millions of other fans from around the world",
-                    Score = 900
-                },
-                new ResultRecord()
-                {
-                    Title = "wikiHow: How-to instructions you can trust.",
-                    Url = "https://www.wikihow.com/Main-Page",
-                    Description = "Learn how to do anything with wikiHow, the world's most popular how-to website. Easy, well-researched, and trustworthy instructions for everything you want to k",
-                    Score = 800
-                },
-                new ResultRecord()
-                {
-                    Title = "Moz - SEO Software, Tools & Resources for Smarter Marketing",
-                    Url = "https://moz.com/",
-                    Score = 700
-                },
-                new ResultRecord()
-                {
-                    Url = "https://www.wikipedia.org/",
-                    Score = 600
-                }
-            };
+                    Url = x.Webpage.Url.AbsoluteUri,
+                    Title = x.Webpage.Metadata.Title,
+                    Description = x.Webpage.Metadata.Description,
+                    Score = x.Score
+                });
+
+            TotalResults = results.Count();
+            Results = results.OrderByDescending(x => x.Score).Skip((ResultPageNumber - 1) * NUMBER_OF_RESULTS_PER_PAGE).Take(NUMBER_OF_RESULTS_PER_PAGE).ToList();
 
             sw.Stop();
             TimeToLoad = sw.Elapsed;
             return Page();
+        }
+
+        private static bool IsBelongs(Keyword x, string[] terms, bool normlize)
+        {
+            foreach(var term in terms)
+            {
+                if((normlize ? x.RootKeywordForm.ToLower() : x.RootKeywordForm) == term)
+                    return true;
+            }
+            return false;
         }
     }
 }
