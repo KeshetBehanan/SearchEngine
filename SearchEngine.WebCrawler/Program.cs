@@ -82,6 +82,7 @@ namespace SearchEngine.WebCrawler
             if(isFirstTime)
             {
                 config.NumberOfCrawlers = 1;
+                config.Crawler_TimeoutForKeywordsParsingInMinutes = 1000000; // Don't timeout the process.
                 // Setting case-sensitive to the keywords.
                 using var dh = new DataHelper(DataHelperConfig.Create(config.Crawler_ConnectionString));
                 dh.Database.ExecuteSqlCommand(
@@ -101,6 +102,7 @@ namespace SearchEngine.WebCrawler
                     connectionString: config.Crawler_ConnectionString,
                     maxWaitForWebpages: config.Crawler_MaxWaitForWebpages,
                     timeoutInSeconds: config.Crawler_TimeoutInSeconds,
+                    timeoutForKeywordsParsingInMinutes: config.Crawler_TimeoutForKeywordsParsingInMinutes,
                     id: i
                     ));
 

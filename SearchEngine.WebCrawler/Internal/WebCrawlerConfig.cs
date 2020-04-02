@@ -33,6 +33,11 @@ namespace SearchEngine.WebCrawler
         internal int TimeoutInSeconds { get; private set; }
 
         /// <summary>
+        /// The time in minutes that a keywords parsing process has to be finished.
+        /// </summary>
+        internal int TimeoutForKeywordsParsingInMinutes { get; private set; }
+
+        /// <summary>
         /// The Id of this crawler.
         /// </summary>
         internal int Id { get; private set; }
@@ -45,13 +50,15 @@ namespace SearchEngine.WebCrawler
         /// <param name="maxWaitForWebpages">The max webpages the crawler will wait for finishing the process of them.</param>
         /// <param name="timeoutInSeconds">The time in seconds that a webpage has to be loaded.</param>
         /// <param name="id">The Id of this crawler.</param>
-        private WebCrawlerConfig(string userAgent, string connectionString, int maxWaitForWebpages, int timeoutInSeconds, int id)
+        private WebCrawlerConfig(string userAgent, string connectionString, int maxWaitForWebpages,
+            int timeoutInSeconds, int timeoutForKeywordsParsingInMinutes, int id)
         {
             ConnectionString = connectionString;
             UserAgent = userAgent;
             IsFirstTime = false;
             MaxWaitForWebpages = maxWaitForWebpages;
             TimeoutInSeconds = timeoutInSeconds;
+            TimeoutForKeywordsParsingInMinutes = timeoutForKeywordsParsingInMinutes;
             Id = id;
         }
 
@@ -64,9 +71,10 @@ namespace SearchEngine.WebCrawler
         /// <param name="timeoutInSeconds">The time in seconds that a webpage has to be loaded.</param>
         /// <param name="id">The Id of this crawler.</param>
         /// <returns>A new <see cref="DataHelperConfig"/>.</returns>
-        public static WebCrawlerConfig Create(string userAgent, string connectionString, int maxWaitForWebpages, int timeoutInSeconds, int id)
+        public static WebCrawlerConfig Create(string userAgent, string connectionString, int maxWaitForWebpages,
+            int timeoutInSeconds, int timeoutForKeywordsParsingInMinutes, int id)
         {
-            var dhc = new WebCrawlerConfig(userAgent, connectionString, maxWaitForWebpages, timeoutInSeconds, id);
+            var dhc = new WebCrawlerConfig(userAgent, connectionString, maxWaitForWebpages, timeoutInSeconds, timeoutForKeywordsParsingInMinutes, id);
             return dhc;
         }
     }

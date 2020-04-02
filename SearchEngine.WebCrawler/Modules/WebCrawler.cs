@@ -368,10 +368,10 @@ namespace SearchEngine.WebCrawler
 
                 #region Meta
 
-                var titleKeywords = Regex.Matches(webpage?.Metadata?.Title, @"([\p{L}']+|\d+)")
+                var titleKeywords = Regex.Matches(webpage?.Metadata?.Title ?? "", @"([\p{L}']+|\d+)")
                     .Select(x => x.Value).Where(x => !string.IsNullOrWhiteSpace(x)).GroupBy(x => x).Select(x => new { Keyword = x.Key, Count = x.Count() })
                     .ToDictionary(x => x.Keyword, x => x.Count);
-                var descKeywords = Regex.Matches(webpage?.Metadata?.Description, @"([\p{L}']+|\d+)")
+                var descKeywords = Regex.Matches(webpage?.Metadata?.Description ?? "", @"([\p{L}']+|\d+)")
                     .Select(x => x.Value).Where(x => !string.IsNullOrWhiteSpace(x)).GroupBy(x => x).Select(x => new { Keyword = x.Key, Count = x.Count() })
                     .ToDictionary(x => x.Keyword, x => x.Count);
 
@@ -402,6 +402,8 @@ namespace SearchEngine.WebCrawler
                 body.SelectNodes("//script")?.ToList().ForEach(x => x.Remove());
                 body.SelectNodes("//style")?.ToList().ForEach(x => x.Remove());
 
+                var sw = Stopwatch.StartNew();
+
                 Parallel.ForEach(docClasses.Keys, keyword =>
                 {
                     var keywords = body.SelectNodes($"//{keyword}")?
@@ -411,10 +413,11 @@ namespace SearchEngine.WebCrawler
                         .Where(x => !string.IsNullOrWhiteSpace(x)).GroupBy(x => x)
                         .Select(x => new { Keyword = x.Key, Count = x.Count() }).ToDictionary(x => x.Keyword, x => x.Count);
                     if(keywords != null)
-                        LinkWordsToWebpage(keywords, webpage, docClasses[keyword], dataHelper).Wait();
+                        LinkWordsToWebpage(keywords, webpage, docClasses[keyword], dataHelper, sw).Wait();
                 });
 
                 Task.WaitAll(linksTasks);
+                sw.Stop();
 
                 #endregion
 
@@ -471,10 +474,15 @@ namespace SearchEngine.WebCrawler
         /// <param name="webpage">The webpage.</param>
         /// <param name="score">The score of one appear of these keywords.</param>
         /// <returns></returns>
-        private Task LinkWordsToWebpage(Dictionary<string, int> keywords, Webpage webpage, int score, DataHelper dataHelper)
+        private Task LinkWordsToWebpage(Dictionary<string, int> keywords, Webpage webpage, int score, DataHelper dataHelper, Stopwatch sw = null)
         {
             while(keywords.Count > 0)
             {
+                if(sw != null && sw.Elapsed.TotalMinutes < config.TimeoutForKeywordsParsingInMinutes)
+                {
+                    return Task.CompletedTask;
+                }
+
                 var w = keywords.First();
                 var w1 = w.Key;
                 var w2 = w1.ToLower();

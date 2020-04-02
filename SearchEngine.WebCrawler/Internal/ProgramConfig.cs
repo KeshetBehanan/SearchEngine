@@ -33,5 +33,10 @@ namespace SearchEngine.WebCrawler
         /// The time in seconds that a webpage has to be loaded.
         /// </summary>
         public int Crawler_TimeoutInSeconds { get; set; }
+
+        /// <summary>
+        /// The time in minutes that a keywords parsing process has to be finished.
+        /// </summary>
+        public int Crawler_TimeoutForKeywordsParsingInMinutes { get; set; }
     }
 }
