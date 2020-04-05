@@ -4,10 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="~/css/main.css">
     @RenderSection("Stylesheets", required: false)
     <title>@ViewData["Title"]</title>
 </head>
 <body>
     @RenderBody()
+
+    <footer>
+        <div class="wrapper">
+            <p>
+                This project was developed by Tal Israeli for "Davidson Institute of Science Education".<br>
+                This website is under the <a href="~/License">MIT License</a>.<br>
+                Copyright © 2019-2020, Tal Israeli.
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
