@@ -520,11 +520,11 @@ namespace SearchEngine.WebCrawler
                     else
                         keywords.Add("be", 1);
                 }
-                else if(w2 == "he's" || w2 == "she's" || w2 == "it's" ||
+                else if(w2 == "i'm" || w2 == "he's" || w2 == "she's" || w2 == "it's" ||
                     w2 == "what's" || w2 == "when's" || w2 == "where's" || w2 == "how's" || w2 == "what's" || w2 == "why's")
                 {
-                    w1 = Regex.Replace(w1, @"'s", "", RegexOptions.IgnoreCase);
-                    w2 = w2.Replace("'s", "");
+                    w1 = Regex.Replace(w1, @"'s|'m", "", RegexOptions.IgnoreCase);
+                    w2 = w2.Replace("'s", "").Replace("'m", "");
                     if(keywords.ContainsKey("be"))
                         keywords["be"]++;
                     else
