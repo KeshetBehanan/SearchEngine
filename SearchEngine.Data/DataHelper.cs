@@ -42,7 +42,7 @@ namespace SearchEngine.Data
         /// <summary>
         /// The config of the <see cref="DataHelper"/>.
         /// </summary>
-        private readonly DataHelperConfig config;
+        public readonly DataHelperConfig config;
 
         #endregion
 
@@ -102,7 +102,9 @@ namespace SearchEngine.Data
                 .HasForeignKey<Metadata>(x => x.Id);
 
             modelBuilder.Entity<KeywordWebpageRecord>()
-                .HasOne(x => x.Webpage);
+                .HasOne(x => x.Webpage)
+                .WithMany()
+                .HasForeignKey(x => x.WebpageId);
 
             modelBuilder.Entity<KeywordWebpageRecord>()
                 .HasOne(x => x.Keyword)
