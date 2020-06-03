@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace SearchEngine.Data
@@ -21,6 +22,11 @@ namespace SearchEngine.Data
         /// </summary>
         [NotNull]
         public Webpage Webpage { get; private set; }
+
+        /// <summary>
+        /// The ID of the <see cref="Webpage"/>.
+        /// </summary>
+        public int WebpageId { get; private set; }
 
         /// <summary>
         /// The keyword.
