@@ -1,0 +1,8 @@
+{
+  "NumberOfCrawlers": 200,
+  "Crawler_UserAgent": "SearchEngineBot/1.0",
+  "Crawler_ConnectionString": "Data Source=[db];Initial Catalog=searchEngine;Integrated Security=True;TrustServerCertificate=True",
+  "Crawler_MaxWaitForWebpages": 15,
+  "Crawler_TimeoutInSeconds": 30,
+  "Crawler_TimeoutForKeywordsParsingInMinutes": 5
+}

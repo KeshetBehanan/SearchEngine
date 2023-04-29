@@ -11,18 +11,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ProgramConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="HtmlAgilityPack.NetCore" Version="1.5.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SearchEngine.Data\SearchEngine.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="ProgramConfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>
