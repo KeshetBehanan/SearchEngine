@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 /// </summary>
 namespace SearchEngine.WebCrawler
 {
-    public class Program
+    public partial class Program
     {
         /// <summary>
         /// The name of the config file, by default.
@@ -85,7 +85,7 @@ namespace SearchEngine.WebCrawler
                 config.Crawler_TimeoutForKeywordsParsingInMinutes = 1000000; // Don't timeout the process.
                 // Setting case-sensitive to the keywords.
                 using var dh = new DataHelper(DataHelperConfig.Create(config.Crawler_ConnectionString));
-                dh.Database.ExecuteSqlCommand(
+                dh.Database.ExecuteSqlRaw(
                 $"ALTER TABLE [{nameof(DataHelper.Keywords)}] ALTER COLUMN [{nameof(Keyword.RootKeywordForm)}] " +
                 "nvarchar(64) COLLATE SQL_Latin1_General_CP1_CS_AS;");
             }
@@ -128,7 +128,7 @@ namespace SearchEngine.WebCrawler
                 }
                 else
                 {
-                    var match = Regex.Match(cmd, @"stop (\d+)");
+                    var match = StopCmdRegex().Match(cmd);
                     if(match.Success)
                     {
                         var n = int.Parse(match.Groups[1].Value);
@@ -258,5 +258,8 @@ namespace SearchEngine.WebCrawler
             LogMaster("Connections checking completed successfully.");
             return (true, isFirstTime);
         }
+
+        [GeneratedRegex("stop (\\d+)")]
+        private static partial Regex StopCmdRegex();
     }
 }
